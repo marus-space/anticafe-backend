@@ -16,6 +16,9 @@ class AccountingEntry(models.Model):
         verbose_name = 'Проводка'
         verbose_name_plural = 'Проводки'
 
+    def __str__(self):
+        return '[%.16s] %s - %s - %s руб. %s мин' % (self.date, self.client, self.accounting_entry_type, self.cost_rub, self.cost_min)
+
 
 class AccountingEntryType(models.Model):
     accounting_entry_type_id = models.AutoField(primary_key=True)
@@ -26,6 +29,9 @@ class AccountingEntryType(models.Model):
         db_table = 'accounting_entry_type'
         verbose_name = 'Тип проводки'
         verbose_name_plural = 'Типы проводок'
+
+    def __str__(self):
+        return self.name
 
 
 class Card(models.Model):
@@ -38,6 +44,9 @@ class Card(models.Model):
         verbose_name = 'Клубная карта'
         verbose_name_plural = 'Клубные карты'
 
+    def __str__(self):
+        return '%s - %s' % (self.card_id, self.card_type)
+
 
 class CardStatus(models.Model):
     card_status_id = models.AutoField(primary_key=True)
@@ -49,6 +58,9 @@ class CardStatus(models.Model):
         verbose_name = 'Статус клубной карты'
         verbose_name_plural = 'Статусы клубной карты'
 
+    def __str__(self):
+        return self.status
+
 
 class CardType(models.Model):
     card_type_id = models.AutoField(primary_key=True)
@@ -59,6 +71,9 @@ class CardType(models.Model):
         db_table = 'card_type'
         verbose_name = 'Тип клубной карты'
         verbose_name_plural = 'Типы клубной карты'
+
+    def __str__(self):
+        return self.type
 
 
 class Client(models.Model):
@@ -83,6 +98,9 @@ class Client(models.Model):
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
 
+    def __str__(self):
+        return '%s %s' % (self.last_name, self.first_name)
+
 
 class ClientCard(models.Model):
     client = models.OneToOneField(Client, models.DO_NOTHING, primary_key=True)
@@ -97,6 +115,9 @@ class ClientCard(models.Model):
         verbose_name = 'Клубная карта клиента'
         verbose_name_plural = 'Клубные карты клиентов'
 
+    def __str__(self):
+        return '[%.16s] %s - ID %s карта (%s)' % (self.date, self.client, self.card, self.card_status)
+
 
 class ClientSubscription(models.Model):
     client_subscription_id = models.AutoField(primary_key=True)
@@ -110,6 +131,9 @@ class ClientSubscription(models.Model):
         db_table = 'client_subscription'
         verbose_name = 'Абонемент клиента'
         verbose_name_plural = 'Абонементы клиентов'
+
+    def __str__(self):
+        return '[%.16s - %.16s] Клиент %s - %s' % (self.start, self.end, self.client, self.subscription)
 
 
 class Cost(models.Model):
@@ -127,6 +151,9 @@ class Cost(models.Model):
         verbose_name = 'Расход'
         verbose_name_plural = 'Расходы'
 
+    def __str__(self):
+        return '[%.16s] %s - %s - %s руб. %s мин' % (self.date, self.client, self.cost_type, self.cost_rub, self.cost_min)
+
 
 class CostType(models.Model):
     cost_type_id = models.AutoField(primary_key=True)
@@ -138,6 +165,9 @@ class CostType(models.Model):
         verbose_name = 'Тип расхода'
         verbose_name_plural = 'Типы расходов'
 
+    def __str__(self):
+        return self.name
+
 
 class Event(models.Model):
     event_id = models.AutoField(primary_key=True)
@@ -148,6 +178,9 @@ class Event(models.Model):
         db_table = 'event'
         verbose_name = 'Событие'
         verbose_name_plural = 'События'
+
+    def __str__(self):
+        return self.name
 
 
 class Log(models.Model):
@@ -169,6 +202,9 @@ class Log(models.Model):
         verbose_name = 'Лог событий'
         verbose_name_plural = 'Логи событий'
 
+    def __str__(self):
+        return '[%.16s] %s' % (self.date, self.comment)
+
 
 class Subscription(models.Model):
     subscription_id = models.AutoField(primary_key=True)
@@ -183,6 +219,13 @@ class Subscription(models.Model):
         db_table = 'subscription'
         verbose_name = 'Абонемент'
         verbose_name_plural = 'Абонементы'
+
+    def __str__(self):
+        if self.start is None and self.end is None:
+            interval = ''
+        else:
+            interval = 'с %.5s по %.5s - ' % (self.start, self.end)
+        return '%s (%s%s ч) - %s руб.' % (self.name, interval, self.duration, self.cost_rub)
 
 
 class Visit(models.Model):
@@ -199,6 +242,9 @@ class Visit(models.Model):
         verbose_name = 'Посещение'
         verbose_name_plural = 'Посещения'
 
+    def __str__(self):
+        return '[%.16s - %.16s] %s - %s' % (self.start, self.end, self.client, self.duration)
+
 
 class VisitTariff(models.Model):
     visit_tariff_id = models.AutoField(primary_key=True)
@@ -212,6 +258,13 @@ class VisitTariff(models.Model):
         db_table = 'visit_tariff'
         verbose_name = 'Тариф для посещений'
         verbose_name_plural = 'Тарифы для посещений'
+
+    def __str__(self):
+        if self.card_type is None:
+            card_type = 'Клубные карты'
+        else:
+            card_type = str(self.card_type) + ' карта'
+        return '%s - %.5s - %.5s - %s руб./мин' % (card_type, self.start_tariff_zone, self.end_tariff_zone, self.cost_per_minute)
 
 
 class AuthGroupPermissions(models.Model):
