@@ -67,8 +67,9 @@ class ClientView(ListCreateAPIView):
     def get_queryset(self):
         queryset = Client.objects.all()
         p = self.request.query_params.get('param')
+
         if p is not None:
-            queryset = queryset.filter(Q(phone__contains=p) | Q(last_name__contains=p) | Q(first_name__contains=p))
+            queryset = queryset.filter(Q(phone__icontains=p) | Q(last_name__icontains=p) | Q(first_name__icontains=p))
         return queryset
 
 
