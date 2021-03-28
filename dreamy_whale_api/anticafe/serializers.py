@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import *
 
 
 class ClientSerializer(serializers.Serializer):
@@ -16,3 +17,24 @@ class ClientSerializer(serializers.Serializer):
     num_of_invitees = serializers.IntegerField()
     payment_min_status = serializers.IntegerField()
     ban_status = serializers.IntegerField()
+
+    def create(self, validated_data):
+        return Client.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.patronymic = validated_data.get('patronymic', instance.patronymic)
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.email = validated_data.get('email', instance.email)
+        instance.date_of_birth = validated_data.get('date_of_birth', instance.date_of_birth)
+        instance.balance_rub = validated_data.get('balance_rub', instance.balance_rub)
+        instance.balance_min = validated_data.get('balance_min', instance.balance_min)
+        instance.ref_link_from = validated_data.get('ref_link_from', instance.ref_link_from)
+        instance.ref_link = validated_data.get('ref_link', instance.ref_link)
+        instance.num_of_invitees = validated_data.get('num_of_invitees', instance.num_of_invitees)
+        instance.payment_min_status = validated_data.get('payment_min_status', instance.payment_min_status)
+        instance.ban_status = validated_data.get('ban_status', instance.ban_status)
+
+        instance.save()
+        return instance

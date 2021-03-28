@@ -1,0 +1,48 @@
+# Create virtual environment
+
+python -m venv venv
+
+
+# Activate virual environment
+
+venv\Scripts\activate
+
+
+# Install Django and Django REST Framework
+
+pip install django
+pip install djangorestframework
+
+
+# Install MySQL Client
+
+
+pip install mysqlclient
+
+# Start Project
+
+django-admin startproject <project_name>
+
+
+#Start new app
+
+cd <project_name>
+django-admin startapp <app_name>
+
+
+# Inspect existing database
+
+python manage.py inspectdb
+python manage.py inspectdb > models.py
+
+
+# Install default Dgango tables
+
+python manage.py migrate
+
+
+# Run server
+
+python manage.py rinserver
+
+
