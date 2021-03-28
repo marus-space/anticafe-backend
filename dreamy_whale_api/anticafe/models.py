@@ -13,6 +13,8 @@ class AccountingEntry(models.Model):
     class Meta:
         managed = False
         db_table = 'accounting_entry'
+        verbose_name = 'Проводка'
+        verbose_name_plural = 'Проводки'
 
 
 class AccountingEntryType(models.Model):
@@ -22,6 +24,8 @@ class AccountingEntryType(models.Model):
     class Meta:
         managed = False
         db_table = 'accounting_entry_type'
+        verbose_name = 'Тип проводки'
+        verbose_name_plural = 'Типы проводок'
 
 
 class Card(models.Model):
@@ -31,6 +35,8 @@ class Card(models.Model):
     class Meta:
         managed = False
         db_table = 'card'
+        verbose_name = 'Клубная карта'
+        verbose_name_plural = 'Клубные карты'
 
 
 class CardStatus(models.Model):
@@ -40,6 +46,8 @@ class CardStatus(models.Model):
     class Meta:
         managed = False
         db_table = 'card_status'
+        verbose_name = 'Статус клубной карты'
+        verbose_name_plural = 'Статусы клубной карты'
 
 
 class CardType(models.Model):
@@ -49,6 +57,8 @@ class CardType(models.Model):
     class Meta:
         managed = False
         db_table = 'card_type'
+        verbose_name = 'Тип клубной карты'
+        verbose_name_plural = 'Типы клубной карты'
 
 
 class Client(models.Model):
@@ -70,6 +80,8 @@ class Client(models.Model):
     class Meta:
         managed = False
         db_table = 'client'
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
 
 
 class ClientCard(models.Model):
@@ -82,6 +94,8 @@ class ClientCard(models.Model):
         managed = False
         db_table = 'client_card'
         unique_together = (('client', 'card'),)
+        verbose_name = 'Клубная карта клиента'
+        verbose_name_plural = 'Клубные карты клиентов'
 
 
 class ClientSubscription(models.Model):
@@ -94,6 +108,8 @@ class ClientSubscription(models.Model):
     class Meta:
         managed = False
         db_table = 'client_subscription'
+        verbose_name = 'Абонемент клиента'
+        verbose_name_plural = 'Абонементы клиентов'
 
 
 class Cost(models.Model):
@@ -108,6 +124,8 @@ class Cost(models.Model):
     class Meta:
         managed = False
         db_table = 'cost'
+        verbose_name = 'Расход'
+        verbose_name_plural = 'Расходы'
 
 
 class CostType(models.Model):
@@ -117,6 +135,8 @@ class CostType(models.Model):
     class Meta:
         managed = False
         db_table = 'cost_type'
+        verbose_name = 'Тип расхода'
+        verbose_name_plural = 'Типы расходов'
 
 
 class Event(models.Model):
@@ -126,6 +146,8 @@ class Event(models.Model):
     class Meta:
         managed = False
         db_table = 'event'
+        verbose_name = 'Событие'
+        verbose_name_plural = 'События'
 
 
 class Log(models.Model):
@@ -144,6 +166,8 @@ class Log(models.Model):
     class Meta:
         managed = False
         db_table = 'log'
+        verbose_name = 'Лог событий'
+        verbose_name_plural = 'Логи событий'
 
 
 class Subscription(models.Model):
@@ -157,6 +181,8 @@ class Subscription(models.Model):
     class Meta:
         managed = False
         db_table = 'subscription'
+        verbose_name = 'Абонемент'
+        verbose_name_plural = 'Абонементы'
 
 
 class Visit(models.Model):
@@ -170,6 +196,8 @@ class Visit(models.Model):
     class Meta:
         managed = False
         db_table = 'visit'
+        verbose_name = 'Посещение'
+        verbose_name_plural = 'Посещения'
 
 
 class VisitTariff(models.Model):
@@ -182,6 +210,8 @@ class VisitTariff(models.Model):
     class Meta:
         managed = False
         db_table = 'visit_tariff'
+        verbose_name = 'Тариф для посещений'
+        verbose_name_plural = 'Тарифы для посещений'
 
 
 class AuthGroupPermissions(models.Model):
