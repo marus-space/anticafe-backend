@@ -9,6 +9,13 @@ class AccountingEntryView(ListCreateAPIView):
     queryset = AccountingEntry.objects.all()
     serializer_class = AccountingEntrySerializer
 
+    def get_queryset(self):
+        queryset = AccountingEntry.objects.all()
+        c = self.request.query_params.get('client')
+        if c is not None:
+            queryset = queryset.filter(client=c)
+        return queryset
+
 
 class SingleAccountingEntryView(RetrieveUpdateDestroyAPIView):
     queryset = AccountingEntry.objects.all()
@@ -82,6 +89,13 @@ class ClientCardView(ListCreateAPIView):
     queryset = ClientCard.objects.all()
     serializer_class = ClientCardSerializer
 
+    def get_queryset(self):
+        queryset = ClientCard.objects.all()
+        c = self.request.query_params.get('client')
+        if c is not None:
+            queryset = queryset.filter(client=c)
+        return queryset
+
 
 class SingleClientCardView(RetrieveUpdateDestroyAPIView):
     queryset = ClientCard.objects.all()
@@ -93,6 +107,13 @@ class ClientSubscriptionView(ListCreateAPIView):
     queryset = ClientSubscription.objects.all()
     serializer_class = ClientSubscriptionSerializer
 
+    def get_queryset(self):
+        queryset = ClientSubscription.objects.all()
+        c = self.request.query_params.get('client')
+        if c is not None:
+            queryset = queryset.filter(client=c)
+        return queryset
+
 
 class SingleClientSubscriptionView(RetrieveUpdateDestroyAPIView):
     queryset = ClientSubscription.objects.all()
@@ -103,6 +124,13 @@ class SingleClientSubscriptionView(RetrieveUpdateDestroyAPIView):
 class CostView(ListCreateAPIView):
     queryset = Cost.objects.all()
     serializer_class = CostSerializer
+
+    def get_queryset(self):
+        queryset = Cost.objects.all()
+        c = self.request.query_params.get('client')
+        if c is not None:
+            queryset = queryset.filter(client=c)
+        return queryset
 
 
 class SingleCostView(RetrieveUpdateDestroyAPIView):
@@ -136,6 +164,13 @@ class SingleSubscriptionView(RetrieveUpdateDestroyAPIView):
 class VisitView(ListCreateAPIView):
     queryset = Visit.objects.all()
     serializer_class = VisitSerializer
+
+    def get_queryset(self):
+        queryset = Visit.objects.all()
+        c = self.request.query_params.get('client')
+        if c is not None:
+            queryset = queryset.filter(client=c)
+        return queryset
 
 
 class SingleVisitView(RetrieveUpdateDestroyAPIView):
