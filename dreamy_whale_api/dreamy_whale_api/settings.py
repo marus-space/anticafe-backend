@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'dreamy_whale_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'anticafe',
-        'USER': 'websrv',
-        'PASSWORD': 'websrv',
-        'HOST': 'localhost',
+        'NAME': 'heroku_776846d8e525815',
+        'USER': 'bebd0efb4433c3',
+        'PASSWORD': '82d10797',
+        'HOST': 'eu-cdbr-west-01.cleardb.com',
         'PORT': '3306',
         'AUTH_PLUGIN': 'mysql_native_password',
     }
