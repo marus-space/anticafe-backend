@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'dreamy_whale_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'marus$anticafe',
-        'USER': 'marus',
-        'PASSWORD': 'iuyjhgnbv',
-        'HOST': 'marus.mysql.pythonanywhere-services.com',
+        'NAME': 'anticafe',
+        'USER': 'websrv',
+        'PASSWORD': 'websrv',
+        'HOST': 'localhost',
         'PORT': '3306',
         'AUTH_PLUGIN': 'mysql_native_password',
     }
