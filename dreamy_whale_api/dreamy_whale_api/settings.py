@@ -25,7 +25,7 @@ SECRET_KEY = 'vp0s(kbc_3#jx1p4s1!c07b+n)+w!e1izymh%9&n*(pwe=7lws'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -79,9 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'anticafe',
-        'USER': 'websrv',
-        'PASSWORD': 'websrv',
-        'HOST': 'localhost',
+        'USER': 'marus',
+        'PASSWORD': 'ьфкгыьфкгы',
+        'HOST': 'marus.mysql.pythonanywhere-services.com',
         'PORT': '3306',
         'AUTH_PLUGIN': 'mysql_native_password',
     }
