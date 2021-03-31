@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'anticafe',
         'USER': 'marus',
-        'PASSWORD': 'ьфкгыьфкгы',
+        'PASSWORD': 'iuyjhgnbv',
         'HOST': 'marus.mysql.pythonanywhere-services.com',
         'PORT': '3306',
         'AUTH_PLUGIN': 'mysql_native_password',
