@@ -5,7 +5,7 @@ from .models import *
 
 # AccountingEntry
 class AccountingEntrySerializer(serializers.ModelSerializer):
-    accounting_entry_type = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    accounting_entry_type = serializers.SlugRelatedField(slug_field="name", queryset=AccountingEntryType.objects.all())
 
     class Meta:
         model = AccountingEntry
@@ -22,7 +22,7 @@ class AccountingEntryTypeSerializer(serializers.ModelSerializer):
 
 # Card
 class CardSerializer(serializers.ModelSerializer):
-    card_type = serializers.SlugRelatedField(slug_field="type", read_only=True)
+    card_type = serializers.SlugRelatedField(slug_field="type", queryset=CardType.objects.all())
 
     class Meta:
         model = Card
@@ -54,7 +54,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
 # ClientCard
 class ClientCardSerializer(serializers.ModelSerializer):
-    card_status = serializers.SlugRelatedField(slug_field="status", read_only=True)
+    card_status = serializers.SlugRelatedField(slug_field="status", queryset=CardStatus.objects.all())
 
     class Meta:
         model = ClientCard
@@ -63,6 +63,8 @@ class ClientCardSerializer(serializers.ModelSerializer):
 
 # ClientSubscription
 class ClientSubscriptionSerializer(serializers.ModelSerializer):
+    subscription = serializers.SlugRelatedField(slug_field="name", queryset=Subscription.objects.all())
+
     class Meta:
         model = ClientSubscription
         fields = ('client_subscription_id', 'client', 'subscription', 'start', 'end')
@@ -70,6 +72,8 @@ class ClientSubscriptionSerializer(serializers.ModelSerializer):
 
 # Cost
 class CostSerializer(serializers.ModelSerializer):
+    cost_type = serializers.SlugRelatedField(slug_field="name", queryset=CostType.objects.all())
+
     class Meta:
         model = Cost
         fields = ('cost_id', 'client', 'cost_type', 'date', 'cost_rub', 'cost_min', 'bonus')
@@ -97,6 +101,8 @@ class VisitSerializer(serializers.ModelSerializer):
 
 # VisitTariff
 class VisitTariffSerializer(serializers.ModelSerializer):
+    card_type = serializers.SlugRelatedField(slug_field="type", queryset=CardType.objects.all())
+
     class Meta:
         model = VisitTariff
         fields = ('visit_tariff_id', 'card_type', 'start_tariff_zone', 'end_tariff_zone', 'cost_per_minute')
