@@ -5,6 +5,8 @@ from .models import *
 
 # AccountingEntry
 class AccountingEntrySerializer(serializers.ModelSerializer):
+    accounting_entry_type = serializers.SlugRelatedField(slug_field="name", read_only=True)
+
     class Meta:
         model = AccountingEntry
         fields = ('accounting_entry_id', 'client', 'accounting_entry_type', \
@@ -20,6 +22,8 @@ class AccountingEntryTypeSerializer(serializers.ModelSerializer):
 
 # Card
 class CardSerializer(serializers.ModelSerializer):
+    card_type = serializers.SlugRelatedField(slug_field="type", read_only=True)
+
     class Meta:
         model = Card
         fields = ('card_id', 'card_type')
@@ -50,6 +54,8 @@ class ClientSerializer(serializers.ModelSerializer):
 
 # ClientCard
 class ClientCardSerializer(serializers.ModelSerializer):
+    card_status = serializers.SlugRelatedField(slug_field="status", read_only=True)
+
     class Meta:
         model = ClientCard
         fields = ('client', 'card', 'card_status', 'date')
