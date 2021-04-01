@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import AccountingEntry, AccountingEntryType, Card, CardStatus, \
-    CardType, Client, ClientCard, ClientSubscription, Cost, CostType, Event, \
-    Log, Subscription, Visit, VisitTariff
+from .models import *
 
 
 admin.site.register(AccountingEntry)
@@ -16,6 +14,7 @@ admin.site.register(Cost)
 admin.site.register(CostType)
 admin.site.register(Event)
 admin.site.register(Log)
+admin.site.register(ReferralSystem)
 admin.site.register(Subscription)
 admin.site.register(Visit)
 admin.site.register(VisitTariff)

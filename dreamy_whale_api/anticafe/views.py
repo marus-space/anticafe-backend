@@ -1,5 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django.db.models import Q
+import string
+import random
 
 from .serializers import *
 
@@ -78,6 +80,16 @@ class ClientView(ListCreateAPIView):
             queryset = queryset.filter(Q(phone__icontains=p) | Q(last_name__icontains=p) | Q(first_name__icontains=p))
         return queryset
 
+    def perform_create(self, serializer):
+        ref_link = ref_generator()
+        while Client.objects.all().filter(ref_link=ref_link):
+            ref_link = ref_generator()
+        return serializer.save(ref_link=ref_link)
+
+
+def ref_generator(size=8, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
 
 class SingleClientView(RetrieveUpdateDestroyAPIView):
     queryset = Client.objects.all()
@@ -147,6 +159,24 @@ class CostTypeView(ListCreateAPIView):
 class SingleCostTypeView(RetrieveUpdateDestroyAPIView):
     queryset = CostType.objects.all()
     serializer_class = CostTypeSerializer
+
+
+# ReferralSystem
+class ReferralSystemView(ListCreateAPIView):
+    queryset = ReferralSystem.objects.all()
+    serializer_class = ReferralSystemSerializer
+
+    def get_queryset(self):
+        queryset = ReferralSystem.objects.all()
+        c = self.request.query_params.get('client')
+        if c is not None:
+            queryset = queryset.filter(client=c)
+        return queryset
+
+
+class SingleReferralSystemView(RetrieveUpdateDestroyAPIView):
+    queryset = ReferralSystem.objects.all()
+    serializer_class = ReferralSystemSerializer
 
 
 # Subscription

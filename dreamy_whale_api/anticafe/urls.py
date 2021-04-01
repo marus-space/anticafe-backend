@@ -36,6 +36,9 @@ urlpatterns = [
     # CostType
     path('cost_types/', CostTypeView.as_view()),
     path('cost_types/<int:pk>', SingleCostTypeView.as_view()),
+    # ReferralSystem
+    path('referral_system/', ReferralSystemView.as_view()),
+    path('referral_system/<int:pk>', SingleReferralSystemView.as_view()),
     # Subscription
     path('subscriptions/', SubscriptionView.as_view()),
     path('subscriptions/<int:pk>', SingleSubscriptionView.as_view()),

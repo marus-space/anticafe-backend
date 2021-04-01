@@ -48,8 +48,9 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ('client_id', 'last_name', 'first_name', 'patronymic', 'phone', \
-                  'email', 'date_of_birth', 'balance_rub', 'balance_min', 'ref_link_from', \
-                  'ref_link', 'num_of_invitees', 'payment_min_status', 'ban_status')
+                  'email', 'date_of_birth', 'balance_rub', 'balance_min', 'payment_min_status', \
+                  'ban_status', 'ref_link_from', 'ref_link')
+        read_only_fields = ('balance_rub', 'balance_min', 'ref_link')
 
 
 # ClientCard
@@ -86,6 +87,14 @@ class CostTypeSerializer(serializers.ModelSerializer):
         fields = ('cost_type_id', 'name')
 
 
+# ReferralSystem
+class ReferralSystemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReferralSystem
+        fields = ('client', 'num_of_invitees')
+        read_only_fields = ('client', 'num_of_invitees', )
+
+
 # Subscription
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -97,9 +106,10 @@ class VisitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Visit
         fields = ('visit_id', 'client', 'start', 'end', 'duration', 'comment')
+        read_only_fields = ('duration', )
 
 
-# VisitTariff
+    # VisitTariff
 class VisitTariffSerializer(serializers.ModelSerializer):
     card_type = serializers.SlugRelatedField(slug_field="type", queryset=CardType.objects.all())
 

@@ -84,13 +84,12 @@ class Client(models.Model):
     phone = models.DecimalField(unique=True, max_digits=11, decimal_places=0)
     email = models.CharField(unique=True, max_length=80)
     date_of_birth = models.DateField()
-    balance_rub = models.DecimalField(max_digits=8, decimal_places=2)
-    balance_min = models.DecimalField(max_digits=6, decimal_places=0)
+    balance_rub = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    balance_min = models.DecimalField(max_digits=6, decimal_places=0, default=0)
+    payment_min_status = models.IntegerField(default=0)
+    ban_status = models.IntegerField(default=0)
     ref_link_from = models.CharField(max_length=8, blank=True, null=True)
-    ref_link = models.CharField(max_length=8)
-    num_of_invitees = models.IntegerField()
-    payment_min_status = models.IntegerField()
-    ban_status = models.IntegerField()
+    ref_link = models.CharField(unique=True, max_length=8)
 
     class Meta:
         managed = False
@@ -204,6 +203,19 @@ class Log(models.Model):
 
     def __str__(self):
         return '[%.16s] %s' % (self.date, self.comment)
+
+
+class ReferralSystem(models.Model):
+    client = models.OneToOneField(Client, models.DO_NOTHING, primary_key=True)
+    num_of_invitees = models.IntegerField(default=0)
+
+    class Meta:
+        managed = False
+        db_table = 'referral_system'
+        verbose_name = 'Реферальная система'
+
+    def __str__(self):
+        return '%s пригласил(а) %s друзей' % (self.client, self.num_of_invitees)
 
 
 class Subscription(models.Model):
