@@ -6,8 +6,8 @@ class AccountingEntry(models.Model):
     client = models.ForeignKey('Client', models.DO_NOTHING)
     accounting_entry_type = models.ForeignKey('AccountingEntryType', models.DO_NOTHING)
     date = models.DateTimeField()
-    cost_rub = models.DecimalField(max_digits=8, decimal_places=2)
-    cost_min = models.DecimalField(max_digits=6, decimal_places=0)
+    cost_rub = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    cost_min = models.DecimalField(max_digits=6, decimal_places=0, default=0)
     comment = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -35,7 +35,7 @@ class AccountingEntryType(models.Model):
 
 
 class Card(models.Model):
-    card_id = models.DecimalField(primary_key=True, max_digits=12, decimal_places=0)
+    card_id = models.DecimalField(max_digits=15, decimal_places=0, primary_key=True)
     card_type = models.ForeignKey('CardType', models.DO_NOTHING)
 
     class Meta:
@@ -98,11 +98,12 @@ class Client(models.Model):
         verbose_name_plural = 'Клиенты'
 
     def __str__(self):
-        return '%s %s' % (self.last_name, self.first_name)
+        return '[%s] %s %s' % (self.client_id, self.last_name, self.first_name)
 
 
 class ClientCard(models.Model):
-    client = models.OneToOneField(Client, models.DO_NOTHING, primary_key=True)
+    client_card_id = models.AutoField(primary_key=True)
+    client = models.ForeignKey(Client, models.DO_NOTHING)
     card = models.ForeignKey(Card, models.DO_NOTHING)
     card_status = models.ForeignKey(CardStatus, models.DO_NOTHING)
     date = models.DateTimeField()
@@ -110,7 +111,6 @@ class ClientCard(models.Model):
     class Meta:
         managed = False
         db_table = 'client_card'
-        unique_together = (('client', 'card'),)
         verbose_name = 'Клубная карта клиента'
         verbose_name_plural = 'Клубные карты клиентов'
 
@@ -216,6 +216,22 @@ class ReferralSystem(models.Model):
 
     def __str__(self):
         return '%s пригласил(а) %s друзей' % (self.client, self.num_of_invitees)
+
+
+class Scan(models.Model):
+    scan_id = models.AutoField(primary_key=True)
+    card = models.ForeignKey(Card, models.DO_NOTHING)
+    scaner_type = models.CharField(max_length=20)
+    date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'scan'
+        verbose_name = 'Запись со сканера'
+        verbose_name_plural = 'Записи со сканера'
+
+    def __str__(self):
+        return '[%.16s] %s ID %s' % (self.date, self.scan_type, self.card)
 
 
 class Subscription(models.Model):

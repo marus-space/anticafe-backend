@@ -179,6 +179,17 @@ class SingleReferralSystemView(RetrieveUpdateDestroyAPIView):
     serializer_class = ReferralSystemSerializer
 
 
+# Scan
+class ScanView(ListCreateAPIView):
+    queryset = Scan.objects.all()
+    serializer_class = ScanSerializer
+
+
+class SingleScanView(RetrieveUpdateDestroyAPIView):
+    queryset = Scan.objects.all()
+    serializer_class = ScanSerializer
+
+
 # Subscription
 class SubscriptionView(ListCreateAPIView):
     queryset = Subscription.objects.all()

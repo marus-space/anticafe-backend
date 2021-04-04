@@ -39,6 +39,9 @@ urlpatterns = [
     # ReferralSystem
     path('referral_system/', ReferralSystemView.as_view()),
     path('referral_system/<int:pk>', SingleReferralSystemView.as_view()),
+    # Scan
+    path('scaner/', ScanView.as_view()),
+    path('scaner/<int:pk>', SingleScanView.as_view()),
     # Subscription
     path('subscriptions/', SubscriptionView.as_view()),
     path('subscriptions/<int:pk>', SingleSubscriptionView.as_view()),

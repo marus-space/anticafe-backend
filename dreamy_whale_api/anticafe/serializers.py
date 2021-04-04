@@ -11,6 +11,7 @@ class AccountingEntrySerializer(serializers.ModelSerializer):
         model = AccountingEntry
         fields = ('accounting_entry_id', 'client', 'accounting_entry_type', \
                   'date', 'cost_rub', 'cost_min', 'comment', )
+        read_only_fields = ('date', )
 
 
 # AccountingEntryType
@@ -59,7 +60,8 @@ class ClientCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientCard
-        fields = ('client', 'card', 'card_status', 'date')
+        fields = ('client_card_id', 'client', 'card', 'card_status', 'date')
+        read_only_fields = ('date', )
 
 
 # ClientSubscription
@@ -69,6 +71,7 @@ class ClientSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientSubscription
         fields = ('client_subscription_id', 'client', 'subscription', 'start', 'end')
+        read_only_fields = ('end', )
 
 
 # Cost
@@ -78,6 +81,7 @@ class CostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cost
         fields = ('cost_id', 'client', 'cost_type', 'date', 'cost_rub', 'cost_min', 'bonus')
+        read_only_fields = ('cost_id', 'client', 'cost_type', 'date', 'cost_rub', 'cost_min', 'bonus')
 
 
 # CostType
@@ -93,6 +97,14 @@ class ReferralSystemSerializer(serializers.ModelSerializer):
         model = ReferralSystem
         fields = ('client', 'num_of_invitees')
         read_only_fields = ('client', 'num_of_invitees', )
+
+
+# Scan
+class ScanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Scan
+        fields = ('scan_id', 'card', 'scaner_type', 'date')
+        read_only_fields = ('scaner_type', )
 
 
 # Subscription
