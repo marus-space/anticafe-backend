@@ -1,3 +1,6 @@
+from django.db import OperationalError
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django.db.models import Q
 import string
@@ -18,10 +21,24 @@ class AccountingEntryView(ListCreateAPIView):
             queryset = queryset.filter(client=c)
         return queryset
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SingleAccountingEntryView(RetrieveUpdateDestroyAPIView):
     queryset = AccountingEntry.objects.all()
     serializer_class = AccountingEntrySerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # AccountingEntryType
@@ -40,10 +57,24 @@ class CardView(ListCreateAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SingleCardView(RetrieveUpdateDestroyAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # CardStatus
@@ -86,6 +117,13 @@ class ClientView(ListCreateAPIView):
             ref_link = ref_generator()
         return serializer.save(ref_link=ref_link)
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 def ref_generator(size=8, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -94,6 +132,13 @@ def ref_generator(size=8, chars=string.ascii_uppercase + string.digits):
 class SingleClientView(RetrieveUpdateDestroyAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ClientCard
@@ -108,10 +153,24 @@ class ClientCardView(ListCreateAPIView):
             queryset = queryset.filter(client=c)
         return queryset
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SingleClientCardView(RetrieveUpdateDestroyAPIView):
     queryset = ClientCard.objects.all()
     serializer_class = ClientCardSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ClientSubscription
@@ -126,10 +185,24 @@ class ClientSubscriptionView(ListCreateAPIView):
             queryset = queryset.filter(client=c)
         return queryset
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SingleClientSubscriptionView(RetrieveUpdateDestroyAPIView):
     queryset = ClientSubscription.objects.all()
     serializer_class = ClientSubscriptionSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Cost
@@ -144,10 +217,24 @@ class CostView(ListCreateAPIView):
             queryset = queryset.filter(client=c)
         return queryset
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SingleCostView(RetrieveUpdateDestroyAPIView):
     queryset = Cost.objects.all()
     serializer_class = CostSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # CostType
@@ -173,10 +260,24 @@ class ReferralSystemView(ListCreateAPIView):
             queryset = queryset.filter(client=c)
         return queryset
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SingleReferralSystemView(RetrieveUpdateDestroyAPIView):
     queryset = ReferralSystem.objects.all()
     serializer_class = ReferralSystemSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Scan
@@ -184,10 +285,24 @@ class ScanView(ListCreateAPIView):
     queryset = Scan.objects.all()
     serializer_class = ScanSerializer
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SingleScanView(RetrieveUpdateDestroyAPIView):
     queryset = Scan.objects.all()
     serializer_class = ScanSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Subscription
@@ -213,10 +328,25 @@ class VisitView(ListCreateAPIView):
             queryset = queryset.filter(client=c)
         return queryset
 
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class SingleVisitView(RetrieveUpdateDestroyAPIView):
     queryset = Visit.objects.all()
     serializer_class = VisitSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 # VisitTariff
