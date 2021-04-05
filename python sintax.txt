@@ -36,7 +36,7 @@ python manage.py inspectdb
 python manage.py inspectdb > models.py
 
 
-# Install default Dgango tables
+# Install default Django tables
 
 python manage.py migrate
 
