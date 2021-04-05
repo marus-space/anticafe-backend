@@ -23,7 +23,7 @@ class AccountingEntryTypeSerializer(serializers.ModelSerializer):
 
 # Card
 class CardSerializer(serializers.ModelSerializer):
-    card_type = serializers.SlugRelatedField(slug_field="type", queryset=CardType.objects.all())
+    card_type = serializers.SlugRelatedField(slug_field="name", queryset=CardType.objects.all())
 
     class Meta:
         model = Card
@@ -41,7 +41,7 @@ class CardStatusSerializer(serializers.ModelSerializer):
 class CardTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CardType
-        fields = ('card_type_id', 'type')
+        fields = ('card_type_id', 'name')
 
 
 # Client
@@ -103,8 +103,8 @@ class ReferralSystemSerializer(serializers.ModelSerializer):
 class ScanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Scan
-        fields = ('scan_id', 'card', 'scaner_type', 'date')
-        read_only_fields = ('scaner_type', )
+        fields = ('scan_id', 'card', 'scanner_type', 'date')
+        read_only_fields = ('scanner_type', )
 
 
 # Subscription
@@ -123,7 +123,7 @@ class VisitSerializer(serializers.ModelSerializer):
 
     # VisitTariff
 class VisitTariffSerializer(serializers.ModelSerializer):
-    card_type = serializers.SlugRelatedField(slug_field="type", queryset=CardType.objects.all())
+    card_type = serializers.SlugRelatedField(slug_field="name", queryset=CardType.objects.all())
 
     class Meta:
         model = VisitTariff

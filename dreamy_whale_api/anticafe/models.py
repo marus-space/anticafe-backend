@@ -35,7 +35,7 @@ class AccountingEntryType(models.Model):
 
 
 class Card(models.Model):
-    card_id = models.DecimalField(max_digits=15, decimal_places=0, primary_key=True)
+    card_id = models.PositiveIntegerField(primary_key=True)
     card_type = models.ForeignKey('CardType', models.DO_NOTHING)
 
     class Meta:
@@ -64,7 +64,7 @@ class CardStatus(models.Model):
 
 class CardType(models.Model):
     card_type_id = models.AutoField(primary_key=True)
-    type = models.CharField(unique=True, max_length=45)
+    name = models.CharField(unique=True, max_length=45)
 
     class Meta:
         managed = False
@@ -73,7 +73,7 @@ class CardType(models.Model):
         verbose_name_plural = 'Типы клубной карты'
 
     def __str__(self):
-        return self.type
+        return self.name
 
 
 class Client(models.Model):
@@ -221,7 +221,7 @@ class ReferralSystem(models.Model):
 class Scan(models.Model):
     scan_id = models.AutoField(primary_key=True)
     card = models.ForeignKey(Card, models.DO_NOTHING)
-    scaner_type = models.CharField(max_length=20)
+    scanner_type = models.CharField(max_length=20)
     date = models.DateTimeField()
 
     class Meta:
@@ -231,7 +231,7 @@ class Scan(models.Model):
         verbose_name_plural = 'Записи со сканера'
 
     def __str__(self):
-        return '[%.16s] %s ID %s' % (self.date, self.scan_type, self.card)
+        return '[%.16s] %s ID %s' % (self.date, self.scanner_type, self.card)
 
 
 class Subscription(models.Model):
