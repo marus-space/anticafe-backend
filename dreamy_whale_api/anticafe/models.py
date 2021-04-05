@@ -89,7 +89,7 @@ class Client(models.Model):
     payment_min_status = models.IntegerField(default=0)
     ban_status = models.IntegerField(default=0)
     ref_link_from = models.CharField(max_length=8, blank=True, null=True)
-    ref_link = models.CharField(unique=True, max_length=8)
+    ref_link = models.CharField(unique=True, max_length=8, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -206,7 +206,7 @@ class Log(models.Model):
 
 
 class ReferralSystem(models.Model):
-    client = models.OneToOneField(Client, models.DO_NOTHING, primary_key=True)
+    client = models.ForeignKey(Client, models.DO_NOTHING, primary_key=True)
     num_of_invitees = models.IntegerField(default=0)
 
     class Meta:
