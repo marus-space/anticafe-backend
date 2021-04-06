@@ -104,7 +104,6 @@ class ScanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Scan
         fields = ('scan_id', 'card', 'scanner_type', 'date')
-        read_only_fields = ('scanner_type', )
 
 
 # Subscription

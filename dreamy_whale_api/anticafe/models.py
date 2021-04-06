@@ -222,7 +222,7 @@ class Scan(models.Model):
     scan_id = models.AutoField(primary_key=True)
     card = models.ForeignKey(Card, models.DO_NOTHING)
     scanner_type = models.CharField(max_length=20)
-    date = models.DateTimeField()
+    date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
