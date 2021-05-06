@@ -21,6 +21,16 @@ class AccountingEntryTypeSerializer(serializers.ModelSerializer):
         fields = ('accounting_entry_type_id', 'name')
 
 
+# Calculator
+class CalculatorSerializer(serializers.ModelSerializer):
+    card_type = serializers.SlugRelatedField(slug_field="name", queryset=CardType.objects.all())
+
+    class Meta:
+        model = Calculator
+        fields = ('calculator_id', 'start_visit', 'end_visit', 'card_type', 'schoolboy', 'student', 'sum_rub', 'comment')
+        read_only_fields = ('sum_rub', 'comment')
+
+
 # Card
 class CardSerializer(serializers.ModelSerializer):
     card_type = serializers.SlugRelatedField(slug_field="name", queryset=CardType.objects.all())
@@ -91,12 +101,48 @@ class CostTypeSerializer(serializers.ModelSerializer):
         fields = ('cost_type_id', 'name')
 
 
+# Questionnaire
+class QuestionnaireSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Questionnaire
+        fields = ('questionnaire_id', 'last_name', 'first_name', 'patronymic', 'phone', 'email', 'date_of_birth', \
+                  'ref_link_from', 'ref_link', 'source', 'guest_card_id', 'card_id', 'card_type', 'processed')
+        read_only_fields = ('ref_link', )
+
+
 # ReferralSystem
 class ReferralSystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReferralSystem
         fields = ('client', 'num_of_invitees')
         read_only_fields = ('client', 'num_of_invitees', )
+
+
+# ReservationObject
+class ReservationObjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReservationObject
+        fields = ('reservation_object_id', 'name')
+
+
+# Reservation
+class ReservationSerializer(serializers.ModelSerializer):
+    reservation_object = serializers.SlugRelatedField(slug_field="name", queryset=ReservationObject.objects.all())
+
+    class Meta:
+        model = Reservation
+        fields = ('reservation_id', 'client', 'last_name', 'first_name', 'phone', 'reservation_object', 'start', \
+        'end', 'client_card', 'schoolboy', 'student', 'num_of_persons', 'preliminary_cost', 'comment')
+        read_only_fields = ('client', 'preliminary_cost')
+
+
+# ReservationTariff
+class ReservationTariffSerializer(serializers.ModelSerializer):
+    reservation_object = serializers.SlugRelatedField(slug_field="name", queryset=ReservationObject.objects.all())
+
+    class Meta:
+        model = ReservationTariff
+        fields = ('reservation_tariff_id', 'reservation_object', 'min_num_of_persons', 'max_num_of_persons', 'one_time_cost', 'cost_per_hour')
 
 
 # Scan

@@ -12,6 +12,8 @@ urlpatterns = [
     # AccountingEntryType
     path('accounting_entry_types/', AccountingEntryTypeView.as_view()),
     path('accounting_entry_types/<int:pk>', SingleAccountingEntryTypeView.as_view()),
+    # Calculator
+    path('calculator/', CalculatorView.as_view()),
     # Card
     path('cards/', CardView.as_view()),
     path('cards/<int:pk>', SingleCardView.as_view()),
@@ -36,9 +38,21 @@ urlpatterns = [
     # CostType
     path('cost_types/', CostTypeView.as_view()),
     path('cost_types/<int:pk>', SingleCostTypeView.as_view()),
+    # Questionnaire
+    path('form/', QuestionnaireView.as_view()),
+    path('form/<int:pk>', SingleQuestionnaireView.as_view()),
     # ReferralSystem
     path('referral_system/', ReferralSystemView.as_view()),
     path('referral_system/<int:pk>', SingleReferralSystemView.as_view()),
+    # ReservationObject
+    path('reservation_objects/', ReservationObjectView.as_view()),
+    path('reservation_objects/<int:pk>', SingleReservationObjectView.as_view()),
+    # Reservation
+    path('reservations/', ReservationView.as_view()),
+    path('reservations/<int:pk>', SingleReservationView.as_view()),
+    # ReservationTariff
+    path('reservation_tariff/', ReservationTariffView.as_view()),
+    path('reservation_tariff/<int:pk>', SingleReservationTariffView.as_view()),
     # Scan
     path('scanner/', ScanView.as_view()),
     path('scanner/<int:pk>', SingleScanView.as_view()),

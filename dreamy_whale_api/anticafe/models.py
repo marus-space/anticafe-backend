@@ -34,6 +34,26 @@ class AccountingEntryType(models.Model):
         return self.name
 
 
+class Calculator(models.Model):
+    calculator_id = models.AutoField(primary_key=True)
+    start_visit = models.DateTimeField()
+    end_visit = models.DateTimeField()
+    card_type = models.ForeignKey('CardType', models.DO_NOTHING)
+    schoolboy = models.IntegerField(default=0)
+    student = models.IntegerField(default=0)
+    sum_rub = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    comment = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'calculator'
+        verbose_name = 'Калькулятор посещения'
+        verbose_name_plural = 'Калькулятор посещений'
+
+    def __str__(self):
+        return '[%.16s - %.16s] %s - %s' % (self.start_visit, self.end_visit, self.sum_rub, self.comment)
+
+
 class Card(models.Model):
     card_id = models.PositiveIntegerField(primary_key=True)
     card_type = models.ForeignKey('CardType', models.DO_NOTHING)
@@ -132,7 +152,7 @@ class ClientSubscription(models.Model):
         verbose_name_plural = 'Абонементы клиентов'
 
     def __str__(self):
-        return '[%.16s - %.16s] Клиент %s - %s' % (self.start, self.end, self.client, self.subscription)
+        return '[%.16s - %.16s] %s - %s' % (self.start, self.end, self.client, self.subscription)
 
 
 class Cost(models.Model):
@@ -205,17 +225,103 @@ class Log(models.Model):
         return '[%.16s] %s' % (self.date, self.comment)
 
 
+class Questionnaire(models.Model):
+    questionnaire_id = models.AutoField(primary_key=True)
+    last_name = models.CharField(max_length=45)
+    first_name = models.CharField(max_length=45)
+    patronymic = models.CharField(max_length=45, blank=True, null=True)
+    phone = models.DecimalField(unique=True, max_digits=11, decimal_places=0)
+    email = models.CharField(unique=True, max_length=80, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    ref_link_from = models.CharField(max_length=8, blank=True, null=True)
+    ref_link = models.CharField(unique=True, max_length=8, blank=True, null=True)
+    source = models.CharField(max_length=45)
+    guest_card_id = models.IntegerField(blank=True, null=True)
+    card_id = models.IntegerField(blank=True, null=True)
+    card_type = models.ForeignKey('CardType', models.DO_NOTHING)
+    processed = models.IntegerField(default=0)
+
+    class Meta:
+        managed = False
+        db_table = 'questionnaire'
+        verbose_name = 'Анкета для получения клубной карты'
+        verbose_name_plural = 'Анкеты для получения клубной карты'
+
+    def __str__(self):
+        return '[%s] %s %s (%s)' % (self.questionnaire_id, self.last_name, self.first_name, self.source)
+
+
 class ReferralSystem(models.Model):
-    client = models.ForeignKey(Client, models.DO_NOTHING, primary_key=True)
+    client = models.OneToOneField(Client, models.DO_NOTHING, primary_key=True)
     num_of_invitees = models.IntegerField(default=0)
 
     class Meta:
         managed = False
         db_table = 'referral_system'
         verbose_name = 'Реферальная система'
+        verbose_name_plural = 'Реферальная система'
 
     def __str__(self):
         return '%s пригласил(а) %s друзей' % (self.client, self.num_of_invitees)
+
+
+class ReservationObject(models.Model):
+    reservation_object_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'reservation_object'
+        verbose_name = 'Объект брони'
+        verbose_name_plural = 'Объекты брони'
+
+    def __str__(self):
+        return self.name
+
+
+class Reservation(models.Model):
+    reservation_id = models.AutoField(primary_key=True)
+    client = models.ForeignKey(Client, models.DO_NOTHING)
+    last_name = models.CharField(max_length=45)
+    first_name = models.CharField(max_length=45)
+    phone = models.DecimalField(unique=True, max_digits=11, decimal_places=0)
+    reservation_object = models.ForeignKey(ReservationObject, models.DO_NOTHING)
+    start = models.TimeField()
+    end = models.TimeField()
+    client_card = models.IntegerField(default=0)
+    schoolboy = models.IntegerField(default=0)
+    student = models.IntegerField(default=0)
+    num_of_persons = models.IntegerField()
+    preliminary_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    comment = comment = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'reservation'
+        verbose_name = 'Бронь'
+        verbose_name_plural = 'Брони'
+
+    def __str__(self):
+        return '[%.16s] %s %s - %s' % (self.start, self.last_name, self.first_name, self.reservation_object)
+
+
+class ReservationTariff(models.Model):
+    reservation_tariff_id = models.AutoField(primary_key=True)
+    reservation_object = models.ForeignKey(ReservationObject, models.DO_NOTHING)
+    min_num_of_persons = models.IntegerField(blank=True, null=True)
+    max_num_of_persons = models.IntegerField(blank=True, null=True)
+    one_time_cost = models.DecimalField(max_digits=6, decimal_places=2)
+    cost_per_hour = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'reservation_tariff'
+        verbose_name = 'Тариф на бронь или аренду'
+        verbose_name_plural = 'Тарифы на бронь или аренду'
+
+    def __str__(self):
+        return '%s: бронь %s руб. (от %s чел.), аренда %s руб./час (до %s чел.)' % (self.reservation_object, self.one_time_cost, self.min_num_of_persons, self.cost_per_hour, self.max_num_of_persons)
+
 
 
 class Scan(models.Model):
@@ -271,7 +377,7 @@ class Visit(models.Model):
         verbose_name_plural = 'Посещения'
 
     def __str__(self):
-        return '[%.16s - %.16s] %s - %s' % (self.start, self.end, self.client, self.duration)
+        return '[%.16s - %.16s] %s - %s минут' % (self.start, self.end, self.client, self.duration)
 
 
 class VisitTariff(models.Model):

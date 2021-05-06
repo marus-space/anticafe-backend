@@ -52,6 +52,22 @@ class SingleAccountingEntryTypeView(RetrieveUpdateDestroyAPIView):
     serializer_class = AccountingEntryTypeSerializer
 
 
+# Calculator
+class CalculatorView(ListCreateAPIView):
+    queryset = Calculator.objects.all()
+    serializer_class = CalculatorSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            super(ListCreateAPIView, self).create(request, *args, **kwargs)
+            queryset = Calculator.objects.last()
+            serializer = CalculatorSerializer(queryset)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
 # Card
 class CardView(ListCreateAPIView):
     queryset = Card.objects.all()
@@ -248,6 +264,37 @@ class SingleCostTypeView(RetrieveUpdateDestroyAPIView):
     serializer_class = CostTypeSerializer
 
 
+# Questionnaire
+class QuestionnaireView(ListCreateAPIView):
+    queryset = Questionnaire.objects.all()
+    serializer_class = QuestionnaireSerializer
+
+    def perform_create(self, serializer):
+        ref_link = ref_generator()
+        while Questionnaire.objects.all().filter(ref_link=ref_link):
+            ref_link = ref_generator()
+        return serializer.save(ref_link=ref_link)
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SingleQuestionnaireView(RetrieveUpdateDestroyAPIView):
+    queryset = Questionnaire.objects.all()
+    serializer_class = QuestionnaireSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
 # ReferralSystem
 class ReferralSystemView(ListCreateAPIView):
     queryset = ReferralSystem.objects.all()
@@ -278,6 +325,60 @@ class SingleReferralSystemView(RetrieveUpdateDestroyAPIView):
         except OperationalError as e:
             content = {'error': e.args[1]}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ReservationObject
+class ReservationObjectView(ListCreateAPIView):
+    queryset = ReservationObject.objects.all()
+    serializer_class = ReservationObjectSerializer
+
+
+class SingleReservationObjectView(RetrieveUpdateDestroyAPIView):
+    queryset = ReservationObject.objects.all()
+    serializer_class = ReservationObjectSerializer
+
+
+# Reservation
+class ReservationView(ListCreateAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+    def get_queryset(self):
+        queryset = Reservation.objects.all()
+        c = self.request.query_params.get('client')
+        if c is not None:
+            queryset = queryset.filter(client=c)
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(ListCreateAPIView, self).create(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SingleReservationView(RetrieveUpdateDestroyAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return super(RetrieveUpdateDestroyAPIView, self).update(request, *args, **kwargs)
+        except OperationalError as e:
+            content = {'error': e.args[1]}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ReservationTariff
+class ReservationTariffView(ListCreateAPIView):
+    queryset = ReservationTariff.objects.all()
+    serializer_class = ReservationTariffSerializer
+
+
+class SingleReservationTariffView(RetrieveUpdateDestroyAPIView):
+    queryset = ReservationTariff.objects.all()
+    serializer_class = ReservationTariffSerializer
 
 
 # Scan
@@ -334,7 +435,6 @@ class VisitView(ListCreateAPIView):
         except OperationalError as e:
             content = {'error': e.args[1]}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class SingleVisitView(RetrieveUpdateDestroyAPIView):
