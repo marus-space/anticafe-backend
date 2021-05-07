@@ -36,8 +36,8 @@ class AccountingEntryType(models.Model):
 
 class Calculator(models.Model):
     calculator_id = models.AutoField(primary_key=True)
-    start_visit = models.DateTimeField()
-    end_visit = models.DateTimeField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()
     card_type = models.ForeignKey('CardType', models.DO_NOTHING)
     schoolboy = models.IntegerField(default=0)
     student = models.IntegerField(default=0)

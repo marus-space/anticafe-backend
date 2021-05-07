@@ -27,7 +27,7 @@ class CalculatorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Calculator
-        fields = ('calculator_id', 'start_visit', 'end_visit', 'card_type', 'schoolboy', 'student', 'sum_rub', 'comment')
+        fields = ('calculator_id', 'start', 'end', 'card_type', 'schoolboy', 'student', 'sum_rub', 'comment')
         read_only_fields = ('sum_rub', 'comment')
 
 
