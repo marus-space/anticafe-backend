@@ -15,7 +15,7 @@ class AccountingEntryView(ListCreateAPIView):
     serializer_class = AccountingEntrySerializer
 
     def get_queryset(self):
-        queryset = AccountingEntry.objects.all()
+        queryset = AccountingEntry.objects.all().order_by('-date')
         c = self.request.query_params.get('client')
         if c is not None:
             queryset = queryset.filter(client=c)
@@ -56,6 +56,10 @@ class SingleAccountingEntryTypeView(RetrieveUpdateDestroyAPIView):
 class CalculatorView(ListCreateAPIView):
     queryset = Calculator.objects.all()
     serializer_class = CalculatorSerializer
+
+    def get_queryset(self):
+        queryset = Calculator.objects.all().order_by('-calculator_id')
+        return queryset
 
     def create(self, request, *args, **kwargs):
         try:
@@ -121,7 +125,7 @@ class ClientView(ListCreateAPIView):
     serializer_class = ClientSerializer
 
     def get_queryset(self):
-        queryset = Client.objects.all()
+        queryset = Client.objects.all().order_by('-client_id')
         p = self.request.query_params.get('param')
         if p is not None:
             queryset = queryset.filter(Q(phone__icontains=p) | Q(last_name__icontains=p) | Q(first_name__icontains=p))
@@ -163,7 +167,7 @@ class ClientCardView(ListCreateAPIView):
     serializer_class = ClientCardSerializer
 
     def get_queryset(self):
-        queryset = ClientCard.objects.all()
+        queryset = ClientCard.objects.all().order_by('-date')
         c = self.request.query_params.get('client')
         if c is not None:
             queryset = queryset.filter(client=c)
@@ -195,7 +199,7 @@ class ClientSubscriptionView(ListCreateAPIView):
     serializer_class = ClientSubscriptionSerializer
 
     def get_queryset(self):
-        queryset = ClientSubscription.objects.all()
+        queryset = ClientSubscription.objects.all().order_by('-client_subscription_id')
         c = self.request.query_params.get('client')
         if c is not None:
             queryset = queryset.filter(client=c)
@@ -227,7 +231,7 @@ class CostView(ListCreateAPIView):
     serializer_class = CostSerializer
 
     def get_queryset(self):
-        queryset = Cost.objects.all()
+        queryset = Cost.objects.all().order_by('-date')
         c = self.request.query_params.get('client')
         if c is not None:
             queryset = queryset.filter(client=c)
@@ -269,6 +273,10 @@ class QuestionnaireView(ListCreateAPIView):
     queryset = Questionnaire.objects.all()
     serializer_class = QuestionnaireSerializer
 
+    def get_queryset(self):
+        queryset = Questionnaire.objects.all().order_by('-questionnaire_id')
+        return queryset
+
     def perform_create(self, serializer):
         ref_link = ref_generator()
         while Questionnaire.objects.all().filter(ref_link=ref_link):
@@ -301,7 +309,7 @@ class ReferralSystemView(ListCreateAPIView):
     serializer_class = ReferralSystemSerializer
 
     def get_queryset(self):
-        queryset = ReferralSystem.objects.all()
+        queryset = ReferralSystem.objects.all().order_by('-client_id')
         c = self.request.query_params.get('client')
         if c is not None:
             queryset = queryset.filter(client=c)
@@ -343,8 +351,9 @@ class ReservationView(ListCreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
+
     def get_queryset(self):
-        queryset = Reservation.objects.all()
+        queryset = Reservation.objects.all().order_by('-start')
         c = self.request.query_params.get('client')
         if c is not None:
             queryset = queryset.filter(client=c)
@@ -386,6 +395,10 @@ class ScanView(ListCreateAPIView):
     queryset = Scan.objects.all()
     serializer_class = ScanSerializer
 
+    def get_queryset(self):
+        queryset = Scan.objects.all().order_by('-date')
+        return queryset
+
     def create(self, request, *args, **kwargs):
         try:
             return super(ListCreateAPIView, self).create(request, *args, **kwargs)
@@ -423,7 +436,7 @@ class VisitView(ListCreateAPIView):
     serializer_class = VisitSerializer
 
     def get_queryset(self):
-        queryset = Visit.objects.all()
+        queryset = Visit.objects.all().order_by('-visit_id')
         c = self.request.query_params.get('client')
         if c is not None:
             queryset = queryset.filter(client=c)
