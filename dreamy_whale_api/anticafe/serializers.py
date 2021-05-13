@@ -6,6 +6,7 @@ from .models import *
 # AccountingEntry
 class AccountingEntrySerializer(serializers.ModelSerializer):
     accounting_entry_type = serializers.SlugRelatedField(slug_field="name", queryset=AccountingEntryType.objects.all())
+    client = serializers.SlugRelatedField(slug_field="full_name", read_only=True)
 
     class Meta:
         model = AccountingEntry
@@ -67,6 +68,7 @@ class ClientSerializer(serializers.ModelSerializer):
 # ClientCard
 class ClientCardSerializer(serializers.ModelSerializer):
     card_status = serializers.SlugRelatedField(slug_field="status", queryset=CardStatus.objects.all())
+    client = serializers.SlugRelatedField(slug_field="full_name", read_only=True)
 
     class Meta:
         model = ClientCard
@@ -77,6 +79,7 @@ class ClientCardSerializer(serializers.ModelSerializer):
 # ClientSubscription
 class ClientSubscriptionSerializer(serializers.ModelSerializer):
     subscription = serializers.SlugRelatedField(slug_field="name", queryset=Subscription.objects.all())
+    client = serializers.SlugRelatedField(slug_field="full_name", read_only=True)
 
     class Meta:
         model = ClientSubscription
@@ -87,6 +90,7 @@ class ClientSubscriptionSerializer(serializers.ModelSerializer):
 # Cost
 class CostSerializer(serializers.ModelSerializer):
     cost_type = serializers.SlugRelatedField(slug_field="name", queryset=CostType.objects.all())
+    client = serializers.SlugRelatedField(slug_field="full_name", read_only=True)
 
     class Meta:
         model = Cost
@@ -103,6 +107,8 @@ class CostTypeSerializer(serializers.ModelSerializer):
 
 # Questionnaire
 class QuestionnaireSerializer(serializers.ModelSerializer):
+    card_type = serializers.SlugRelatedField(slug_field="name", queryset=CardType.objects.all())
+
     class Meta:
         model = Questionnaire
         fields = ('questionnaire_id', 'last_name', 'first_name', 'patronymic', 'phone', 'email', 'date_of_birth', \
@@ -112,6 +118,8 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
 
 # ReferralSystem
 class ReferralSystemSerializer(serializers.ModelSerializer):
+    client = serializers.SlugRelatedField(slug_field="full_name", read_only=True)
+
     class Meta:
         model = ReferralSystem
         fields = ('client', 'num_of_invitees')
@@ -128,6 +136,7 @@ class ReservationObjectSerializer(serializers.ModelSerializer):
 # Reservation
 class ReservationSerializer(serializers.ModelSerializer):
     reservation_object = serializers.SlugRelatedField(slug_field="name", queryset=ReservationObject.objects.all())
+    client = serializers.SlugRelatedField(slug_field="full_name", read_only=True)
 
     class Meta:
         model = Reservation
@@ -160,6 +169,8 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
 
 class VisitSerializer(serializers.ModelSerializer):
+    client = serializers.SlugRelatedField(slug_field="full_name", read_only=True)
+
     class Meta:
         model = Visit
         fields = ('visit_id', 'client', 'start', 'end', 'duration', 'comment')
