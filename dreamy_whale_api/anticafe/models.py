@@ -111,10 +111,6 @@ class Client(models.Model):
     ref_link_from = models.CharField(max_length=8, blank=True, null=True)
     ref_link = models.CharField(unique=True, max_length=8, blank=True, null=True)
 
-    @property
-    def full_name(self):
-        return self.last_name + " " + self.first_name
-
     class Meta:
         managed = False
         db_table = 'client'
