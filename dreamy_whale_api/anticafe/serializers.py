@@ -6,11 +6,14 @@ from .models import *
 # AccountingEntry
 class AccountingEntrySerializer(serializers.ModelSerializer):
     accounting_entry_type = serializers.SlugRelatedField(slug_field="name", queryset=AccountingEntryType.objects.all())
+    last_name = serializers.CharField(source='client.last_name', read_only=True)
+    first_name = serializers.CharField(source='client.first_name', read_only=True)
+
 
     class Meta:
         model = AccountingEntry
-        fields = ('accounting_entry_id', 'client', 'accounting_entry_type', \
-                  'date', 'cost_rub', 'cost_min', 'comment', )
+        fields = ('accounting_entry_id', 'client', 'last_name', 'first_name', 'accounting_entry_type', \
+                  'date', 'cost_rub', 'cost_min', 'comment')
         read_only_fields = ('date', )
 
 
@@ -67,30 +70,37 @@ class ClientSerializer(serializers.ModelSerializer):
 # ClientCard
 class ClientCardSerializer(serializers.ModelSerializer):
     card_status = serializers.SlugRelatedField(slug_field="status", queryset=CardStatus.objects.all())
+    last_name = serializers.CharField(source='client.last_name', read_only=True)
+    first_name = serializers.CharField(source='client.first_name', read_only=True)
 
     class Meta:
         model = ClientCard
-        fields = ('client_card_id', 'client', 'card', 'card_status', 'date')
+        fields = ('client_card_id', 'client', 'last_name', 'first_name', 'card', 'card_status', 'date')
         read_only_fields = ('date', )
 
 
 # ClientSubscription
 class ClientSubscriptionSerializer(serializers.ModelSerializer):
     subscription = serializers.SlugRelatedField(slug_field="name", queryset=Subscription.objects.all())
+    last_name = serializers.CharField(source='client.last_name', read_only=True)
+    first_name = serializers.CharField(source='client.first_name', read_only=True)
 
     class Meta:
         model = ClientSubscription
-        fields = ('client_subscription_id', 'client', 'subscription', 'start', 'end')
+        fields = ('client_subscription_id', 'client', 'last_name', 'first_name', 'subscription', 'start', 'end')
+        fields = ('client_subscription_id', 'client', 'last_name', 'first_name', 'subscription', 'start', 'end')
         read_only_fields = ('end', )
 
 
 # Cost
 class CostSerializer(serializers.ModelSerializer):
     cost_type = serializers.SlugRelatedField(slug_field="name", queryset=CostType.objects.all())
+    last_name = serializers.CharField(source='client.last_name', read_only=True)
+    first_name = serializers.CharField(source='client.first_name', read_only=True)
 
     class Meta:
         model = Cost
-        fields = ('cost_id', 'client', 'cost_type', 'date', 'cost_rub', 'cost_min', 'bonus')
+        fields = ('cost_id', 'client', 'last_name', 'first_name', 'cost_type', 'date', 'cost_rub', 'cost_min', 'bonus')
         read_only_fields = ('cost_id', 'client', 'cost_type', 'date', 'cost_rub', 'cost_min', 'bonus')
 
 
@@ -114,9 +124,12 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
 
 # ReferralSystem
 class ReferralSystemSerializer(serializers.ModelSerializer):
+    last_name = serializers.CharField(source='client.last_name', read_only=True)
+    first_name = serializers.CharField(source='client.first_name', read_only=True)
+
     class Meta:
         model = ReferralSystem
-        fields = ('client', 'num_of_invitees')
+        fields = ('client', 'last_name', 'first_name', 'num_of_invitees')
         read_only_fields = ('client', 'num_of_invitees', )
 
 
@@ -162,9 +175,12 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
 
 class VisitSerializer(serializers.ModelSerializer):
+    last_name = serializers.CharField(source='client.last_name', read_only=True)
+    first_name = serializers.CharField(source='client.first_name', read_only=True)
+
     class Meta:
         model = Visit
-        fields = ('visit_id', 'client', 'start', 'end', 'duration', 'comment')
+        fields = ('visit_id', 'client', 'last_name', 'first_name', 'start', 'end', 'duration', 'comment')
         read_only_fields = ('duration', )
 
 

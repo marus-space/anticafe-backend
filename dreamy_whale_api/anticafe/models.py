@@ -118,7 +118,7 @@ class Client(models.Model):
         verbose_name_plural = 'Клиенты'
 
     def __str__(self):
-        return '[%s] %s %s' % (self.client_id, self.last_name, self.first_name)
+        return '%d %s %s' % (self.client_id, self.last_name, self.first_name)
 
 
 class ClientCard(models.Model):
